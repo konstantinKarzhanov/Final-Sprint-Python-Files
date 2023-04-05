@@ -17,6 +17,9 @@ BRANCH_LIST = f.readline()
 BRANCH_LIST = BRANCH_LIST.split(",")
 REORDER_NUM = int(f.readline())
 
+
+print(REORDER_NUM)
+print(BRANCH_LIST)
 f.close() # Closing file to stop accessing stored information
 
 
