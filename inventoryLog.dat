@@ -1,5 +1,3 @@
-# Item Number[0], Item Description[1], Color[2], Size[3], Pattern[4], Type[5], Item cost[6], Retail price[7], QOH[8], Re-order point[9], Maximum level[10]
-
 1000, Wool Carpet, Blue, 20 x 20m, Solid, Low Pile, 400.00, 600.00 9, 10, 15
 1001, Nylon Carpet, Red, 20 x 20m, Swirls, Cut Pile, 500.00, 700.00 11, 10, 20
 1002, Blended Carpet, Green, 10 x 20m, Solid, Shag, 600.00, 700.00 3, 10, 15
