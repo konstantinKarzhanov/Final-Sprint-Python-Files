@@ -15,6 +15,7 @@ BONUS_THRESHOLD = int(f.readline())
 COMMISSION_BONUS_AMT = int(f.readline())
 BRANCH_LIST = f.readline()
 BRANCH_LIST = BRANCH_LIST.split(",")
+REORDER_NUM = int(f.readline())
 
 f.close() # Closing file to stop accessing stored information
 

@@ -8,6 +8,7 @@
 # 3 - BONUS_THRESHOLD - $5,000
 # 4 - COMMISSION_BONUS_AMT - 200
 # 5 - Branch Locations [St. John's, Mt. Pearl, Carbonear, Bay Roberts, Northern Bay]
+# 6 - REORDER_NUM - 10
 
 
 # Employee Log
@@ -30,4 +31,4 @@
 # Customer Purchase Log
 # ------------
 # Format for the Customer Purchase log
-# Order Number[0], Order date[1], Customer Number[2], Item number[3], Item Description[4], Retail Price[5], Quantity Purchased[6], Subtotal[7], Order Total[8]
+# Order Number[0], Order date[1], Customer Number[2], Item number[3], Item Description[4], Retail Price[5], Quantity Purchased[6], Subtotal[7], Order Total[8], Employee Number[9]
