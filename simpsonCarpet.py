@@ -4,8 +4,25 @@
 
 # Import Statements
 import datetime
+import re
 
-# Constants -------- Going to get them to be read from a defaults.dat file
+# Constants -------- Read from defaults.date file
+f = open('defaults.dat', 'r') # Opening file to access information
+EMP_NUM = int(f.readline())
+INV_NUM = int(f.readline())
+COMMISSION_RATE = float(f.readline())
+BONUS_THRESHOLD = int(f.readline())
+COMMISSION_BONUS_AMT = int(f.readline())
+BRANCH_LIST = f.readline()
+BRANCH_LIST = BRANCH_LIST.split(",")
+
+f.close() # Closing file to stop accessing stored information
+
+
+# Validation Lists
+valid_prov = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
+
+
 
 # Functions
 def option_one():
@@ -118,8 +135,3 @@ while True:
         option_eight()
     elif choice == 9:
         exit()
-
-
-
-
-
