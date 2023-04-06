@@ -1,3 +1,7 @@
+# Semester 1 - Final Sprint Week - Simpson Carpet World Python Program
+# Group 3 - Michael Bennett, Matt Davis, Evan Holloway, Kostiantyn Karzhanov, Daniel Shepelev, Michael Sheridan
+# Last Modified - April 4th, 2023
+
 import re
 import datetime
 
