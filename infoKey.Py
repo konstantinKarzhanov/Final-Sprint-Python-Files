@@ -10,6 +10,7 @@
 # 5 - REORDER_NUM - 10
 # 6 - CUSTOMER_NUM - 4XXX - Customer Number, to be incremented as each Customer is added
 # 7 - ORDER_NUM - 3XXX-  Order Number, to be incremented as each Purchase is added
+# 8 - HST_RATE - 0.15 - Hst rate at 15%
 
 
 # Employee Log

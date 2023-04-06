@@ -20,10 +20,12 @@ COMMISSION_BONUS_AMT = int(f.readline())
 REORDER_NUM = int(f.readline())
 CUSTOMER_NUM = int(f.readline())
 ORDER_NUM = int(f.readline())
+HST_RATE = float(f.readline())
 f.close()
 
 
 def option_one():
+    global EMP_NUM
     # User Validated Inputs
     # First name, mandatory input, alpha only, converted to Title-case
     employee_info = []
@@ -97,7 +99,7 @@ def option_one():
         elif not phone_num.isdigit():
             print("Please enter a valid phone number")
         else:
-            formatted_phone_num = phone_num[:3] + "-" + phone_num[3:6] + "-" + phone_num[6:]
+            phone_num = phone_num[:3] + "-" + phone_num[3:6] + "-" + phone_num[6:]
             break
 
     # Date hired, mandatory input, valid date
@@ -175,7 +177,7 @@ def option_one():
     f.close()
 
     # Updating defaults file to new Employee Number
-    employee_info[0] += 1
+    EMP_NUM += 1
     f = open("defaults.dat", 'w')
     f.write("{}\n".format(str(EMP_NUM)))
     f.write("{}\n".format(str(INV_NUM)))
@@ -186,9 +188,6 @@ def option_one():
     f.write("{}\n".format(str(CUSTOMER_NUM)))
     f.write("{}\n".format(str(ORDER_NUM)))
     f.close
-
-
-
 
 
 def option_two():
