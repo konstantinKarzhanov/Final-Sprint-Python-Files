@@ -2,13 +2,15 @@
 
 # Defaults file
 # -------------
-# 0 - EMPLOYEE_NUM - 2000  - Employee number, to be incremented as each new employee is added
-# 1 - INVENTORY_NUM - 1000 - Inventory number, to be incremented with each new item added
+# 0 - EMPLOYEE_NUM - 2XXX  - Employee number, to be incremented as each new employee is added
+# 1 - INVENTORY_NUM - 1XXX - Inventory number, to be incremented with each new item added
 # 2 - COMMISSION_RATE - 6%
 # 3 - BONUS_THRESHOLD - $5,000
 # 4 - COMMISSION_BONUS_AMT - 200
 # 5 - Branch Locations [St. John's, Mt. Pearl, Carbonear, Bay Roberts, Northern Bay]
 # 6 - REORDER_NUM - 10
+# 7 - CUSTOMER_NUM - 4XXX - Customer Number, to be incremented as each Customer is added
+# 8 - ORDER_NUM - 3XXX-  Order Number, to be incremented as each Purchase is added
 
 
 # Employee Log
