@@ -6,6 +6,10 @@
 import re
 import datetime
 
+# Variables for today
+today = datetime.datetime.now() 
+today_str = datetime.datetime.strftime(today, "%m/%d/%Y")
+
 # Lists for validation and receipts 
 valid_prov = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
 branch_list = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
