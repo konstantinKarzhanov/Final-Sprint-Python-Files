@@ -43,7 +43,7 @@ def option_one():
         else:
             break
 
-    # City, mandatory input, converted to Title-case -------- need to make exception for '--------------
+    # City, mandatory input, converted to Title-case
     while True:
         city = input("City: ").title()
         if city == "":
@@ -64,7 +64,7 @@ def option_one():
         else:
             break
 
-    # Postal Code, mandatory input, must be valid format as X0X 0X0 ------ADD REPLACE STATEMENTS
+    # Postal Code, mandatory input, must be valid format as X0X 0X0
     # The pattern below is used to compare against user input, this will be done using Regular Expressions
     # The pattern will accept a space or dash between postal code
     pattern = r"^[A-Z]\d[A-Z][ -]?\d[A-Z]\d$"
@@ -93,19 +93,78 @@ def option_one():
     while True:
         try:
             date_hired = input("Please enter date hired as dd-mm-yyyy: ")
-            # date_hired = datetime.datetime.strftime(%d-%m-%Y)
-            break
+            date_hired = datetime.datetime.strptime(date_hired, "%d-%m-%Y")
         except:
-            print("You make fucking mistake in the date of hiring, common")
+            print("Please enter a valid date: ")
+        else:
+            date_hired = datetime.datetime.strftime(date_hired, "%d-%m-%Y")
+            break
 
-    employee_info.append((employee_num.strip(), emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num))
+    # Employee Branch Number, mandatory input
+    while True:
+        try:
+            emp_branch_num = int(input("Please enter branch number (0-3): "))
+        except:
+            print("Please enter valid number")
+        else:
+            if emp_branch_num < 0 or emp_branch_num > 3:
+                print("Please enter a valid branch number")
+            else:
+                break
 
+    # Employee title, mandatory input, checked via regular expressions, Alpha only 20 character max size.
+    pattern =r"^[a-zA-Z ]{0,20}$"
+    while True:
+        emp_title = input("Employee Title: "). title()
+        if re.match(pattern, emp_title):
+            break
+        else:
+            print("Invalid Title, Please re-enter")
+
+    # Employee Salary, mandatory input
+    while True:
+        try:
+            emp_salary = int(input("Employee Salary: "))
+        except:
+            print("Please enter a valid number")
+        else:
+            if emp_salary < 13000:
+                print("This salary is below minimum wage, please re-enter")
+            elif emp_salary > 100000:
+                print("This salary is above the highest paid person at Sampson's Carpet, Please re-enter")
+            else:
+                break
+    
+    # Employee Skills, mandatory input, alpha only
+    while True:
+        emp_skills = input("Enter employee skill: ").title()
+        if not emp_skills.isalpha():
+            print("Please enter valid skill")
+        else:
+            break
+
+    # Birthdate, mandatory input, valid date
+    while True:
+        try:
+            birthdate = input("Please enter birthdate as dd-mm-yyyy: ")
+            birthdate = datetime.datetime.strptime(birthdate, "%d-%m-%Y")
+        except:
+            print("Please enter a valid date: ")
+        else:
+            birthdate = datetime.datetime.strftime(birthdate, "%d-%m-%Y")
+            break
+    
+    # Add all info to employee info list
+    employee_info.append((employee_num.strip(), emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired, emp_branch_num, emp_title, emp_salary, emp_skills, birthdate))
+
+    # Append info to Employee Log data file
     f = open('employeeLog.dat', 'a')
     for data in employee_info:
         f.write(",".join(map(str, data)) + "\n")
     f.close()
 
-    pass
+    # Updating defaults file to new customer number
+
 
 
 def option_two():
