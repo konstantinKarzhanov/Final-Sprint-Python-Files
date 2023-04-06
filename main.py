@@ -6,29 +6,33 @@
 import re
 import datetime
 
+# Variables for Today
+today = datetime.datetime.now() 
+today_str = datetime.datetime.strftime(today, "%m/%d/%Y")
+
 # Lists for validation and receipts 
 valid_prov = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
 branch_list = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
 
 # Read data from the file defaults.dat
 f = open('defaults.dat', 'r')
-EMP_NUM = int(f.readline().strip())
-INV_NUM = int(f.readline())
-COMMISSION_RATE = float(f.readline())
-BONUS_THRESHOLD = int(f.readline())
-COMMISSION_BONUS_AMT = int(f.readline())
-REORDER_NUM = int(f.readline())
-CUSTOMER_NUM = int(f.readline())
-ORDER_NUM = int(f.readline())
+employee_num = int(f.readline())
+inventory_num = int(f.readline())
+commission_rate = float(f.readline())
+bonus_threshold = int(f.readline())
+commission_bonus_amt = int(f.readline())
+reorder_num = int(f.readline())
+customer_num = int(f.readline())
+order_num = int(f.readline())
 HST_RATE = float(f.readline())
 f.close()
 
-
 def option_one():
-    global EMP_NUM
+    global employee_num
     # User Validated Inputs
     # First name, mandatory input, alpha only, converted to Title-case
     employee_info = []
+
     while True:
         emp_f_name = input("First Name: ").title()
         if emp_f_name == "":
@@ -168,7 +172,7 @@ def option_one():
             break
     
     # Add all info to employee info list
-    employee_info.append((EMP_NUM, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired, emp_branch_num, emp_title, emp_salary, emp_skills, birthdate))
+    employee_info.append((employee_num, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired, emp_branch_num, emp_title, emp_salary, emp_skills, birthdate))
 
     # Append info to Employee Log data file
     f = open('employeeLog.dat', 'a')
@@ -176,17 +180,19 @@ def option_one():
         f.write(",".join(map(str, data)) + "\n")
     f.close()
 
+    employee_num += 1
     # Updating defaults file to new Employee Number
-    EMP_NUM += 1
+    employee_info[0] += 1
     f = open("defaults.dat", 'w')
-    f.write("{}\n".format(str(EMP_NUM)))
-    f.write("{}\n".format(str(INV_NUM)))
-    f.write("{}\n".format(str(COMMISSION_RATE)))
-    f.write("{}\n".format(str(BONUS_THRESHOLD)))
-    f.write("{}\n".format(str(COMMISSION_BONUS_AMT)))
-    f.write("{}\n".format(str(REORDER_NUM)))
-    f.write("{}\n".format(str(CUSTOMER_NUM)))
-    f.write("{}\n".format(str(ORDER_NUM)))
+    f.write("{}\n".format(str(employee_num)))
+    f.write("{}\n".format(str(inventory_num)))
+    f.write("{}\n".format(str(commission_rate)))
+    f.write("{}\n".format(str(bonus_threshold)))
+    f.write("{}\n".format(str(commission_bonus_amt)))
+    f.write("{}\n".format(str(reorder_num)))
+    f.write("{}\n".format(str(customer_num)))
+    f.write("{}\n".format(str(order_num)))
+    f.write("{}\n".format(str(HST)))
     f.close
 
 
