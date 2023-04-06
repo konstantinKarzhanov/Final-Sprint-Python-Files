@@ -7,10 +7,9 @@
 # 2 - COMMISSION_RATE - 6%
 # 3 - BONUS_THRESHOLD - $5,000
 # 4 - COMMISSION_BONUS_AMT - 200
-# 5 - Branch Locations [St. John's, Mt. Pearl, Carbonear, Bay Roberts, Northern Bay]
-# 6 - REORDER_NUM - 10
-# 7 - CUSTOMER_NUM - 4XXX - Customer Number, to be incremented as each Customer is added
-# 8 - ORDER_NUM - 3XXX-  Order Number, to be incremented as each Purchase is added
+# 5 - REORDER_NUM - 10
+# 6 - CUSTOMER_NUM - 4XXX - Customer Number, to be incremented as each Customer is added
+# 7 - ORDER_NUM - 3XXX-  Order Number, to be incremented as each Purchase is added
 
 
 # Employee Log
