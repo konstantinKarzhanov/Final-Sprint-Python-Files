@@ -2,15 +2,20 @@ import re
 import datetime
 
 valid_prov = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
+branch_list = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
+
 # Read data from the file defaults.dat
 f = open('defaults.dat', 'r')
-employee_num = f.readline()
-inventory_num = f.readline()
-commission_rate = f.readline()
-bonus_threshold = f.readline()
-commission_bonus_amt = f.readline()
-reorder_num = f.readline()
+EMP_NUM = int(f.readline().strip())
+INV_NUM = int(f.readline())
+COMMISSION_RATE = float(f.readline())
+BONUS_THRESHOLD = int(f.readline())
+COMMISSION_BONUS_AMT = int(f.readline())
+REORDER_NUM = int(f.readline())
+CUSTOMER_NUM = int(f.readline())
+ORDER_NUM = int(f.readline())
 f.close()
+
 
 def option_one():
     # User Validated Inputs
@@ -155,7 +160,7 @@ def option_one():
             break
     
     # Add all info to employee info list
-    employee_info.append((employee_num.strip(), emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired, emp_branch_num, emp_title, emp_salary, emp_skills, birthdate))
+    employee_info.append((EMP_NUM, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired, emp_branch_num, emp_title, emp_salary, emp_skills, birthdate))
 
     # Append info to Employee Log data file
     f = open('employeeLog.dat', 'a')
@@ -163,7 +168,20 @@ def option_one():
         f.write(",".join(map(str, data)) + "\n")
     f.close()
 
-    # Updating defaults file to new customer number
+    # Updating defaults file to new Employee Number
+    employee_info[0] += 1
+    f = open("defaults.dat", 'w')
+    f.write("{}\n".format(str(EMP_NUM)))
+    f.write("{}\n".format(str(INV_NUM)))
+    f.write("{}\n".format(str(COMMISSION_RATE)))
+    f.write("{}\n".format(str(BONUS_THRESHOLD)))
+    f.write("{}\n".format(str(COMMISSION_BONUS_AMT)))
+    f.write("{}\n".format(str(REORDER_NUM)))
+    f.write("{}\n".format(str(CUSTOMER_NUM)))
+    f.write("{}\n".format(str(ORDER_NUM)))
+    f.close
+
+
 
 
 
