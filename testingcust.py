@@ -2,9 +2,11 @@
 # Group 3 - Michael Bennett, Matt Davis, Evan Holloway, Kostiantyn Karzhanov, Daniel Shepelev, Michael Sheridan
 # Last Modified - April 4th, 2023
 
+# Import Statements
 import re
 import datetime
 
+# Lists for validation and receipts 
 valid_prov = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
 branch_list = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
 
