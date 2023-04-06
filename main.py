@@ -14,7 +14,7 @@ today_str = datetime.datetime.strftime(today, "%m/%d/%Y")
 valid_prov = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
 branch_list = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
 
-# Read data from the file defaults.dat
+# Read data from the file defaults.dat ----- Constants should be all uppercase ----
 f = open('defaults.dat', 'r')
 employee_num = int(f.readline())
 inventory_num = int(f.readline())
