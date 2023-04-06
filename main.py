@@ -6,7 +6,7 @@
 import re
 import datetime
 
-# Variables for today
+# Variables for Today
 today = datetime.datetime.now() 
 today_str = datetime.datetime.strftime(today, "%m/%d/%Y")
 
@@ -16,15 +16,26 @@ branch_list = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
 
 # Read data from the file defaults.dat
 f = open('defaults.dat', 'r')
-EMP_NUM = int(f.readline())
-INV_NUM = int(f.readline())
-COMMISSION_RATE = float(f.readline())
-BONUS_THRESHOLD = int(f.readline())
-COMMISSION_BONUS_AMT = int(f.readline())
-REORDER_NUM = int(f.readline())
-CUSTOMER_NUM = int(f.readline())
-ORDER_NUM = int(f.readline())
+employee_num = int(f.readline())
+inventory_num = int(f.readline())
+commission_rate = float(f.readline())
+bonus_threshold = int(f.readline())
+commission_bonus_amt = int(f.readline())
+reorder_num = int(f.readline())
+customer_num = int(f.readline())
+order_num = int(f.readline())
+HST = float(f.readline())
 f.close()
+
+print(employee_num)
+print(inventory_num)
+print(commission_rate)
+print(bonus_threshold)
+print(commission_bonus_amt)
+print(reorder_num)
+print(customer_num)
+print(order_num)
+print(HST)
 
 
 def option_one():
@@ -32,7 +43,6 @@ def option_one():
     # First name, mandatory input, alpha only, converted to Title-case
     employee_info = []
 
-    employee_num = EMP_NUM
     while True:
         emp_f_name = input("First Name: ").title()
         if emp_f_name == "":
@@ -184,13 +194,14 @@ def option_one():
     # Updating defaults file to new Employee Number
     f = open("defaults.dat", 'w')
     f.write("{}\n".format(str(employee_num)))
-    f.write("{}\n".format(str(INV_NUM)))
-    f.write("{}\n".format(str(COMMISSION_RATE)))
-    f.write("{}\n".format(str(BONUS_THRESHOLD)))
-    f.write("{}\n".format(str(COMMISSION_BONUS_AMT)))
-    f.write("{}\n".format(str(REORDER_NUM)))
-    f.write("{}\n".format(str(CUSTOMER_NUM)))
-    f.write("{}\n".format(str(ORDER_NUM)))
+    f.write("{}\n".format(str(inventory_num)))
+    f.write("{}\n".format(str(commission_rate)))
+    f.write("{}\n".format(str(bonus_threshold)))
+    f.write("{}\n".format(str(commission_bonus_amt)))
+    f.write("{}\n".format(str(reorder_num)))
+    f.write("{}\n".format(str(customer_num)))
+    f.write("{}\n".format(str(order_num)))
+    f.write("{}\n".format(str(HST)))
     f.close
 
 
