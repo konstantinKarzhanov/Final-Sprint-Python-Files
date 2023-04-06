@@ -168,14 +168,14 @@ def option_one():
 
     # Append info to Employee Log data file
     f = open('employeeLog.dat', 'a')
-    for data in employee_info:
+    for data in employee_info: 
         f.write(",".join(map(str, data)) + "\n")
     f.close()
 
     # Updating defaults file to new Employee Number
-    EMP_NUM += 1
+    employee_info[0] += 1
     f = open("defaults.dat", 'w')
-    f.write("{}\n".format(str(new_emp_num)))
+    f.write("{}\n".format(str(EMP_NUM)))
     f.write("{}\n".format(str(INV_NUM)))
     f.write("{}\n".format(str(COMMISSION_RATE)))
     f.write("{}\n".format(str(BONUS_THRESHOLD)))
