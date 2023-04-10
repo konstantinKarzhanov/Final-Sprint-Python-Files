@@ -237,15 +237,15 @@ def option_one():
 
         # Updating defaults file to new Employee Number
         f = open("defaults.dat", 'w')
-        f.write("{}\n".format(str(employee_num)))
-        f.write("{}\n".format(str(inventory_num)))
-        f.write("{}\n".format(str(commission_rate)))
-        f.write("{}\n".format(str(bonus_threshold)))
-        f.write("{}\n".format(str(commission_bonus_amt)))
-        f.write("{}\n".format(str(reorder_num)))
-        f.write("{}\n".format(str(customer_num)))
-        f.write("{}\n".format(str(order_num)))
-        f.write("{}\n".format(str(HST)))
+        f.write("{}\n".format(employee_num))
+        f.write("{}\n".format(inventory_num))
+        f.write("{}\n".format(commission_rate))
+        f.write("{}\n".format(bonus_threshold))
+        f.write("{}\n".format(commission_bonus_amt))
+        f.write("{}\n".format(reorder_num))
+        f.write("{}\n".format(customer_num))
+        f.write("{}\n".format(order_num))
+        f.write("{}\n".format(HST))
         f.close()
 
 
@@ -261,7 +261,7 @@ def option_one():
         time.sleep(1)
 
         while True:
-            add_more_emp = input("Would you like to add another employee (Y/N): ")
+            add_more_emp = input("Would you like to add another employee (Y/N): ").upper()
             if add_more_emp == "Y":
                 break
             elif add_more_emp == "N":
