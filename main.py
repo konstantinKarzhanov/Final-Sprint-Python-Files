@@ -50,11 +50,12 @@ f.close()
 f = open("employeeLog.dat", "r")
 for employee_data_line in f:
     employee_line = employee_data_line.split(',')
-    employee_num = employee_line[0].strip()
-
+    employee_num = int(employee_line[0].strip())
 
     emp_numbers_list.append(employee_num)
 f.close()
+
+
 
 # Read required data from customer file
 f = open("customerLog.dat", "r")
@@ -72,16 +73,6 @@ for purchase_data_line in f:
     purchase_line = purchase_data_line.split(',')
     order_number = int(purchase_line[0].strip())
 f.close()
-
-print(employee_num)
-print(inventory_num)
-print(commission_rate)
-print(bonus_threshold)
-print(commission_bonus_amt)
-print(reorder_num)
-print(customer_num)
-print(order_num)
-print(HST)
 
 
 def option_one():
@@ -170,7 +161,7 @@ def option_one():
         try:
             date_hired = input("Please enter date hired as dd-mm-yyyy: ")
             date_hired = datetime.datetime.strptime(date_hired, "%d-%m-%Y")
-        except TypeError:
+        except:
             print("Please enter a valid date: ")
         else:
             date_hired = datetime.datetime.strftime(date_hired, "%d-%m-%Y")
@@ -213,7 +204,7 @@ def option_one():
 
     # Employee Skills, mandatory input, alpha only
     while True:
-        emp_skills = input("Enter employee skill: ").title()
+        emp_skills = input("Employee skill: ").title()
         if not emp_skills.isalpha():
             print("Please enter valid skill")
         else:
@@ -224,7 +215,7 @@ def option_one():
         try:
             birthdate = input("Please enter birthdate as dd-mm-yyyy: ")
             birthdate = datetime.datetime.strptime(birthdate, "%d-%m-%Y")
-        except TypeError:
+        except:
             print("Please enter a valid date: ")
         else:
             birthdate = datetime.datetime.strftime(birthdate, "%d-%m-%Y")
@@ -237,7 +228,7 @@ def option_one():
 
     # Append info to Employee Log data file
     f = open('employeeLog.dat', 'a')
-    for data in f:
+    for data in employee_info:
         f.write(", ".join(map(str, data)) + "\n")
     f.close()
 
@@ -273,12 +264,16 @@ def option_four():
 
     print("Enter new order information")
     while True:
-        emp_number = input("Employee Number: ")
-        if emp_number not in emp_numbers_list:
-            print("Does not match any current employee number - please try again.")
-            print(f"Employee numbers: {emp_numbers_list}")
+        try:
+            emp_number = int(input("Employee Number: "))
+        except ValueError:
+            print("Please enter a valid number")
         else:
-            break
+            if emp_number not in emp_numbers_list:
+                print("Does not match any current employee number - please try again.")
+                print(f"Employee numbers: {emp_numbers_list}")
+            else:
+                break
 
     while True:
         try:
@@ -286,7 +281,7 @@ def option_four():
         except ValueError:
             print("Invalid input - must be an integer.")
         else:
-            if int(cust_num) not in customer_numbers_list:
+            if cust_num not in customer_numbers_list:
                 print("Invalid customer number - please try again.")
                 print(f"Customer Numbers: {customer_numbers_list}")
             else:
@@ -298,7 +293,7 @@ def option_four():
         except ValueError:
             print("Invalid input - must be an integer.")
         else:
-            if int(item_num) not in item_numbers_list:
+            if item_num not in item_numbers_list:
                 print("That item number does not match any of our items - please try again.")
                 print(f"Item Numbers: {item_numbers_list}")
             else:
@@ -348,7 +343,6 @@ def option_four():
     for data in purchase_info:
         f.write(", ".join(map(str, data)) + "\n")
     f.close()
-    pass
 
 
 def option_five():
@@ -357,7 +351,7 @@ def option_five():
     print("Simpson's Carpet World")
     print(f"Employee Listing as of {today_str}")
     print("------------------------------------------------------------------------------")
-    print("Employee #    Employee Name          Title                  Branch      Salary")
+    print("Employee #    Employee Name          Title                Branch        Salary")
     print("------------------------------------------------------------------------------")
 
     total_employees_acc = 0
@@ -416,7 +410,7 @@ while True:
     print('4. Record Customer Purchase.')
     print('5. Print Employee Listing.')
     print('6. Print Customers By Branch.')
-    print('7. Print Orders By Customer,.')
+    print('7. Print Orders By Customer.')
     print('8. Print Recorder Listing.')
     print('9. Exit Menu')
     print()
@@ -435,8 +429,8 @@ while True:
 
     if choice == 1:
         print()
-        print('First option')
-        print("-------------")
+        print('Welcome to the Employee Portal')
+        print("Please enter the following information:")
         option_one()
     elif choice == 2:
         print()
