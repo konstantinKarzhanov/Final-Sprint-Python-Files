@@ -173,7 +173,7 @@ def option_one():
         # Employee Branch Number, mandatory input
         while True:
             try:
-                emp_branch_num = int(input("Please enter branch number (0-3): "))
+                emp_branch_num = int(input("Last digit of Branch Number: NL-00X (0-3): "))
             except ValueError:
                 print("Please enter valid number")
             else:
@@ -237,15 +237,15 @@ def option_one():
 
         # Updating defaults file to new Employee Number
         f = open("defaults.dat", 'w')
-        f.write("{}\n".format(employee_num))
-        f.write("{}\n".format(inventory_num))
-        f.write("{}\n".format(commission_rate))
-        f.write("{}\n".format(bonus_threshold))
-        f.write("{}\n".format(commission_bonus_amt))
-        f.write("{}\n".format(reorder_num))
-        f.write("{}\n".format(customer_num))
-        f.write("{}\n".format(order_num))
-        f.write("{}\n".format(HST))
+        f.write("{}\n".format(str(employee_num)))
+        f.write("{}\n".format(str(inventory_num)))
+        f.write("{}\n".format(str(commission_rate)))
+        f.write("{}\n".format(str(bonus_threshold)))
+        f.write("{}\n".format(str(commission_bonus_amt)))
+        f.write("{}\n".format(str(reorder_num)))
+        f.write("{}\n".format(str(customer_num)))
+        f.write("{}\n".format(str(order_num)))
+        f.write("{}\n".format(str(HST)))
         f.close()
 
 
@@ -419,7 +419,37 @@ def option_seven():
 
 
 def option_eight():
-    pass
+    print()
+    print("Simpson's Carpet World")
+    print(f"Product Reorder Listing as of {today_str}")
+    print("------------------------------------------------------------------------------")
+    print("  Item #     Item Name        On Hand     Amt Ordered     Expected After Order")
+    print("------------------------------------------------------------------------------")
+    item_count = 0
+    Order_amt = 0
+    f = open('inventoryLog.dat', 'r')
+    for item_data_line in f:
+        item_line = item_data_line.split(',')
+        item_num = int(item_line[0].strip())
+        item_description = item_line[1].strip()
+        retail_price = float(item_line[7].strip())
+        QOH = int(item_line[8].strip())
+        reorder_point = int(item_line[9].strip())
+        max_amt = int(item_line[10].strip())
+
+        while True:
+            if QOH <= reorder_point:
+                amt_need = max_amt - QOH
+                Order_amt += (retail_price * amt_need)
+                print(f'  {item_num:>4d}      {item_description:<14s}     {QOH:>4d}     {amt_need:>9d}   {max_amt:>15d}')
+                QOH += amt_need
+                item_count += 1
+            elif QOH == max_amt:
+                break
+            break
+    print("------------------------------------------------------------------------------")
+    print(f"Total Items: {item_count:>2d}        Last Order: $30,000.00        Current Order: {FV.FDollar2(Order_amt)}")
+    f.close()
 
 
 while True:
