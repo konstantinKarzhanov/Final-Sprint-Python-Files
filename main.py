@@ -137,7 +137,7 @@ def option_one():
         # Postal Code, mandatory input, must be valid format as X0X 0X0
         # The pattern below is used to compare against user input, this will be done using Regular Expressions
         # The pattern will accept a space or dash between postal code
-        pattern = r"^[A-Z]\d[A-Z][ -]?\d[A-Z]\d$"
+        pattern = r"^[A-Z]\d[A-Z] \d[A-Z]\d$"
 
         while True:
             post_code = input("Postal Code: (e.g. A1A 1A1):   ").upper()
@@ -194,7 +194,8 @@ def option_one():
         # Employee Salary, mandatory input
         while True:
             try:
-                emp_salary = int(input("Employee Salary: "))
+                emp_salary = float(input("Employee Salary: "))
+                emp_salary = round(emp_salary, 2)
             except ValueError:
                 print("Please enter a valid number")
             else:
