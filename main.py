@@ -504,8 +504,6 @@ while True:
         option_four()
     elif choice == 5:
         print()
-        print('Fifth option')
-        print("-------------")
         option_five()
     elif choice == 6:
         print()
