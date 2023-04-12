@@ -12,6 +12,12 @@ import time
 today = datetime.datetime.now()
 today_str = datetime.datetime.strftime(today, "%d-%m-%Y")
 
+# Assign required constants
+
+DATE_START_COMPANY = datetime.datetime(2000, 1, 1)
+THRESHOLD_EMP_AGE = 100
+DATE_THRESHOLD_EMP_AGE = today - datetime.timedelta(THRESHOLD_EMP_AGE * 365.25)
+
 # Lists for validation and receipts
 VALID_PROV = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
 BRANCH_LIST = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
@@ -73,8 +79,9 @@ for purchase_data_line in f:
     order_number = int(purchase_line[0].strip())
 f.close()
 
-# Create validation functions
-
+# ---------------------------------
+# Validation functions starts here
+# ---------------------------------
 
 def check_char_num(value_name, value_to_check, high_char_num, low_char_num = 1):
 # The function checks whether the length of the given value ("value_to_check") is within the specified range or returns "None"
@@ -117,6 +124,35 @@ def check_valid_format(value_name, value_to_check, format = False):
     # Show the warning message if not
         print(f"\nSorry, the \"{value_name}\" is not valid. You entered: \"{value_to_check}\"")
 
+
+def get_valid_date(value_name, date_threshold_low, date_threshold_high, format = "%d-%m-%Y", format_descr = "DD-MM-YYYY"):
+    # Prompt the user to input the "date" in the given format (default is "DD-MM-YYYY")
+    date_input = input(f"Please enter {value_name} as {format_descr}: ")
+
+    try:
+        # Attempt to convert the input string to a datetime object
+        date_checked = datetime.datetime.strptime(date_input, format)
+    except:
+        # If the conversion fails, display an error message
+        if date_input == "":
+            print(f"\nSorry the \"{value_name}\" cannot be empty")
+        else:
+            print(f"\nSorry, the \"{value_name}\" is not valid. You entered: \"{date_input}\"") 
+    else:
+        # Check if the date is within valid bounds. Return "date_input" if it is valid or show a message and return "None"
+        if date_threshold_low <= date_checked <= date_threshold_high:
+            return date_input
+        elif date_checked < date_threshold_low:
+        # If the date is earlier than the minimum allowed date, show a message with the closest valid date
+            print(f"\nSorry, the \"{value_name}\" is not valid. The closest valid date is: {date_threshold_low.strftime(format)}")
+        elif date_checked > date_threshold_high:
+        # If the date exceeds the upper limit, show an error message.
+            print(f"\nSorry, the \"{value_name}\" is not valid. You entered: \"{date_input}\"")
+
+
+# ----------------------------
+# The end of validation block
+# ----------------------------
 
 def option_one():
     """A function that will enter a new employee's information, then
@@ -222,41 +258,56 @@ def option_one():
         pattern = r"^[A-Z]\d[A-Z][ -]?\d[A-Z]\d$"
 
         while True:
+        # Repeat the loop until the user enters a valid "Postal code"
+            # Prompt the user to input a postal code
             post_code = input("Postal Code: (e.g. A1A 1A1): ").upper()
+
             if re.match(pattern, post_code):
+            # If the input matches the regular expression pattern, format it as "A1A 1A1" and break out of the loop
                 post_code = "{0} {1}".format(post_code[:3], post_code[-3:])
                 break
             else:
+            # If the input does not match the pattern, display an error message and repeat the loop
                 print("Invalid postal code. Please re-enter")
 
         # Phone Number, mandatory input, 10 characters long
         while True:
+        # Repeat the loop until the user enters a valid "Phone number"
+            # Prompt the user to input a "phone number"
             phone_num = input("Phone number (10 digits): ")
-            regex_object = re.compile(r"[() -/]")
 
+            # Define a regular expression pattern to match any parentheses, dashes, spaces, or slashes in the input
+            regex_object = re.compile(r"[() -/]")
+            # Replace any matched characters from the input with the empty string using the regular expression pattern
             phone_num = regex_object.sub("", phone_num)
 
             if phone_num == "":
+            # If the phone number is empty, display an error message and repeat the loop
                 print("Phone number cannot be empty, Please re-enter")
             elif len(phone_num) != 10:
+            # If the phone number is not 10 digits long, display an error message and repeat the loop
                 print("Please enter phone number as 10 digits")
             elif not phone_num.isdigit():
+            # If the phone number contains non-digit characters, display an error message and repeat the loop
                 print("Please enter a valid phone number")
             else:
+            # If the phone number is valid, format it as ###-###-#### and break out of the loop
                 phone_num = phone_num[:3] + "-" + phone_num[3:6] + "-" + phone_num[6:]
                 break        
 
         # Date hired, mandatory input, valid date
         while True:
-            try:
-                date_hired = input("Please enter date hired as dd-mm-yyyy: ")
-                date_hired = datetime.datetime.strptime(date_hired, "%d-%m-%Y")
-            except:
-                print("Please enter a valid date: ")
-            else:
-                date_hired = datetime.datetime.strftime(date_hired, "%d-%m-%Y")
+        # Repeat the loop until the user enters a valid "Date hired"
+            # Prompt the user to input the "Date hired"
+            date_hired = get_valid_date("date hired", DATE_START_COMPANY, today)
+
+            if date_hired:
+            # If the "date hired" is valid exit the loop
                 break
 
+            # Show a message and repeat the loop
+            print("Please try again\n")
+        
         # Employee Branch Number, mandatory input
         while True:
             try:
@@ -314,15 +365,17 @@ def option_one():
 
         # Birthdate, mandatory input, valid date
         while True:
-            try:
-                birthdate = input("Please enter birthdate as dd-mm-yyyy: ")
-                birthdate = datetime.datetime.strptime(birthdate, "%d-%m-%Y")
-            except:
-                print("Please enter a valid date: ")
-            else:
-                birthdate = datetime.datetime.strftime(birthdate, "%d-%m-%Y")
+        # Repeat the loop until the user enters a valid "Birthdate"
+            # Prompt the user to input the "birthdate"
+            birthdate = get_valid_date("birthdate", DATE_THRESHOLD_EMP_AGE, today)
+
+            if birthdate:
+            # If the "birthdate" is valid exit the loop
                 break
 
+            # Show a message and repeat the loop
+            print("Please try again\n")
+        
         # Increment employee_num and add all info to employee info list
         employee_num += 1
         employee_info.append((employee_num, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired,
