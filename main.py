@@ -376,7 +376,7 @@ def option_five():
     print("Simpson's Carpet World")
     print(f"Employee Listing as of {today_str}")
     print("------------------------------------------------------------------------------")
-    print("Employee #    Employee Name          Title                Branch        Salary")
+    print("Employee #    Employee Name          Title               Branch        Salary")
     print("------------------------------------------------------------------------------")
 
     total_employees_acc = 0
@@ -395,8 +395,7 @@ def option_five():
         emp_salary = float(emp_line[11].strip())
         full_name = emp_first_name + " " + emp_last_name
 
-        print(f"{employee_number}          {full_name:<20s}   {emp_title:<16s}    {emp_branch:>4s}       "
-              f"{FV.FDollar2(emp_salary):>10s}")
+        print(f"{employee_number}          {full_name:<20s}   {emp_title:<16s}    {emp_branch:>6s}     "f"{FV.FDollar2(emp_salary):>10s}")
 
         total_employees_acc += 1
         total_salary_acc += emp_salary
