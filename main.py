@@ -13,8 +13,8 @@ today = datetime.datetime.now()
 today_str = datetime.datetime.strftime(today, "%d-%m-%Y")
 
 # Lists for validation and receipts
-valid_prov = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
-branch_list = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
+VALID_PROV = ["NL", "PE", "NS", "NB", "QC", "ON", "MB", "SK", "AB", "BC", "YT", "NT", "NU"]
+BRANCH_LIST = ["St. John's", "Mt. Pearl", "Carbonear", "Northern Bay"]
 
 # Read data from the file defaults.dat
 f = open('defaults.dat', 'r')
@@ -129,7 +129,7 @@ def option_one():
                 print("Please re-enter province as (XX)")
             elif prov == "":
                 print("Province field cannot be empty, Please re-enter")
-            elif prov not in valid_prov:
+            elif prov not in VALID_PROV:
                 print("Please enter a valid province")
             else:
                 break
