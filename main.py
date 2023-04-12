@@ -136,6 +136,7 @@ def option_one():
 
         # Postal Code, mandatory input, must be valid format as X0X 0X0
         # The pattern below is used to compare against user input, this will be done using Regular Expressions
+        # The pattern will accept a space or dash between postal code
         pattern = r"^[A-Z]\d[A-Z] \d[A-Z]\d$"
 
         while True:
@@ -166,11 +167,8 @@ def option_one():
             except:
                 print("Please enter a valid date: ")
             else:
-                if date_hired > today:
-                    print("Date hired must be before todays date, please re-renter")
-                else:
-                    date_hired = datetime.datetime.strftime(date_hired, "%d-%m-%Y")
-                    break
+                date_hired = datetime.datetime.strftime(date_hired, "%d-%m-%Y")
+                break
 
         # Employee Branch Number, mandatory input
         while True:
@@ -454,8 +452,37 @@ def option_eight():
     f.close()
 
 
-while True:
+def problem_solving():
+    if today.day == 1:
+        # read the customer purchase data from the file
+        with open('CustomerPurchase.dat', 'r') as f:
+            purchases = [line.strip().split(', ') for line in f.readlines()]
 
+        # calculate the sales totals for each employee
+        sales_totals = {}
+        for purchase in purchases:
+            emp_id = purchase[9]
+            subtotal = float(purchase[7])
+            if emp_id not in sales_totals:
+                sales_totals[emp_id] = subtotal
+            else:
+                sales_totals[emp_id] += subtotal
+
+        # calculate the commission for each employee and display the results
+        unique_emp_ids = set(sales_totals.keys())
+        print(f'Commission totals for {len(unique_emp_ids)} employees as of {today.year}-{today.month:02d}-{today.day:02d}:')
+        for emp_id in unique_emp_ids:
+            sales_total = sales_totals[emp_id]
+            commission = 0.06 * sales_total
+            if sales_total > 5000:
+                commission += 200
+            print(f'Employee {emp_id}: ${commission:.2f}')
+    else:
+        print('Commission calculation only runs on the first day of the month.')
+
+
+while True:
+    problem_solving()
     # Allow user to enter as many employees as needed, option to escape loop at end via input statement
     print()
     print("   Simpson Carpet World")
