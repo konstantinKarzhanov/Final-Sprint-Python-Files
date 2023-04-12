@@ -136,7 +136,6 @@ def option_one():
 
         # Postal Code, mandatory input, must be valid format as X0X 0X0
         # The pattern below is used to compare against user input, this will be done using Regular Expressions
-        # The pattern will accept a space or dash between postal code
         pattern = r"^[A-Z]\d[A-Z] \d[A-Z]\d$"
 
         while True:
@@ -167,8 +166,11 @@ def option_one():
             except:
                 print("Please enter a valid date: ")
             else:
-                date_hired = datetime.datetime.strftime(date_hired, "%d-%m-%Y")
-                break
+                if date_hired > today:
+                    print("Date hired must be before todays date, please re-renter")
+                else:
+                    date_hired = datetime.datetime.strftime(date_hired, "%d-%m-%Y")
+                    break
 
         # Employee Branch Number, mandatory input
         while True:
