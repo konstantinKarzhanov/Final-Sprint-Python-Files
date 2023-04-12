@@ -217,30 +217,34 @@ def option_one():
             else:
                 break
 
-        # Postal Code, mandatory input, must be valid format as X0X 0X0
+        # Postal Code, mandatory input, must be valid format as X0X0X0, X0X 0X0 or X0X-0X0
         # The pattern below is used to compare against user input, this will be done using Regular Expressions
-        # The pattern will accept a space or dash between postal code
-        pattern = r"^[A-Z]\d[A-Z] \d[A-Z]\d$"
+        pattern = r"^[A-Z]\d[A-Z][ -]?\d[A-Z]\d$"
 
         while True:
             post_code = input("Postal Code: (e.g. A1A 1A1): ").upper()
             if re.match(pattern, post_code):
+                post_code = "{0} {1}".format(post_code[:3], post_code[-3:])
                 break
             else:
                 print("Invalid postal code. Please re-enter")
 
         # Phone Number, mandatory input, 10 characters long
         while True:
-            phone_num = input("Phone number (Without Spaces): ")
-            phone_num = phone_num.replace("-", "")
-            phone_num = phone_num.replace("/", "")
-            if len(phone_num) != 10:
-                print("Please format phone number as 10 digits without spaces")
+            phone_num = input("Phone number (10 digits): ")
+            regex_object = re.compile(r"[() -/]")
+
+            phone_num = regex_object.sub("", phone_num)
+
+            if phone_num == "":
+                print("Phone number cannot be empty, Please re-enter")
+            elif len(phone_num) != 10:
+                print("Please enter phone number as 10 digits")
             elif not phone_num.isdigit():
                 print("Please enter a valid phone number")
             else:
                 phone_num = phone_num[:3] + "-" + phone_num[3:6] + "-" + phone_num[6:]
-                break
+                break        
 
         # Date hired, mandatory input, valid date
         while True:
