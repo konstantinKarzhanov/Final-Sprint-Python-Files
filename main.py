@@ -1,6 +1,6 @@
 # Semester 1 - Final Sprint Week - Simpson Carpet World Python Program
 # Group 3 - Michael Bennett, Matt Davis, Evan Holloway, Kostiantyn Karzhanov, Daniel Shepelev, Michael Sheridan
-# Last Modified - April 6th, 2023
+# Last Modified - April 13th, 2023
 
 # Import Statements
 import re
@@ -71,28 +71,31 @@ for customer_data_line in f:
     customer_numbers_list.append(customer_number)
 f.close()
 
+
 # ---------------------------------
 # Validation functions starts here
 # ---------------------------------
 
-def check_char_num(value_name, value_to_check, high_char_num, low_char_num = 1):
-# The function checks whether the length of the given value ("value_to_check") is within the specified range or returns "None"
+def check_char_num(value_name, value_to_check, high_char_num, low_char_num=1):
+    # The function checks whether the length of the given value ("value_to_check") is within the specified range or returns "None"
     if value_to_check == "":
-    # if "value_to_check" is an empty string show the warning message
+        # if "value_to_check" is an empty string show the warning message
         print(f"\nSorry the \"{value_name}\" cannot be empty")
     elif low_char_num <= len(value_to_check) <= high_char_num:
-    # if the length is within the specified range return the value
+        # if the length is within the specified range return the value
         return value_to_check
     else:
-    # if the length is NOT within the specified range, show a warning message
+        # if the length is NOT within the specified range, show a warning message
         if low_char_num == high_char_num:
-            print(f"\nSorry, the \"{value_name}\" must be \"{high_char_num}\" characters long. You entered \"{len(value_to_check)}\"")
+            print(
+                f"\nSorry, the \"{value_name}\" must be \"{high_char_num}\" characters long. You entered \"{len(value_to_check)}\"")
         else:
-            print(f"\nSorry, the \"{value_name}\" must be from \"{low_char_num}\" to \"{high_char_num}\" characters long. You entered \"{len(value_to_check)}\"")
+            print(
+                f"\nSorry, the \"{value_name}\" must be from \"{low_char_num}\" to \"{high_char_num}\" characters long. You entered \"{len(value_to_check)}\"")
 
 
-def get_accepted_set(format = False):
-# The function returns a certain set of accepted characters depending on the "format" given
+def get_accepted_set(format=False):
+    # The function returns a certain set of accepted characters depending on the "format" given
     if not format or format == "A-z'- .#0-9":
         return set("ABCDEFGHIJKLMONPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'- .#0123456789")
     elif format == "A-z'- .":
@@ -103,21 +106,21 @@ def get_accepted_set(format = False):
         return set(format)
 
 
-def check_valid_format(value_name, value_to_check, format = False):
+def check_valid_format(value_name, value_to_check, format=False):
     # The function checks if the given value ("value_to_check") is valid based on the specified "format"
 
     # "get_accepted_set" returns a certain set of accepted characters depending on the specified "format"
     accepted_char = get_accepted_set(format)
 
     if set(value_to_check).issubset(accepted_char):
-    # If "value_to_check" has a valid format return this value
-        return value_to_check 
+        # If "value_to_check" has a valid format return this value
+        return value_to_check
     else:
-    # Show the warning message if not
+        # Show the warning message if not
         print(f"\nSorry, the \"{value_name}\" is not valid. You entered: \"{value_to_check}\"")
 
 
-def get_valid_date(value_name, date_threshold_low, date_threshold_high, format = "%d-%m-%Y", format_descr = "DD-MM-YYYY"):
+def get_valid_date(value_name, date_threshold_low, date_threshold_high, format="%d-%m-%Y", format_descr="DD-MM-YYYY"):
     # Prompt the user to input the "date" in the given format (default is "DD-MM-YYYY")
     date_input = input(f"Please enter {value_name} as {format_descr}: ")
 
@@ -129,16 +132,17 @@ def get_valid_date(value_name, date_threshold_low, date_threshold_high, format =
         if date_input == "":
             print(f"\nSorry the \"{value_name}\" cannot be empty")
         else:
-            print(f"\nSorry, the \"{value_name}\" is not valid. You entered: \"{date_input}\"") 
+            print(f"\nSorry, the \"{value_name}\" is not valid. You entered: \"{date_input}\"")
     else:
         # Check if the date is within valid bounds. Return "date_input" if it is valid or show a message and return "None"
         if date_threshold_low <= date_checked <= date_threshold_high:
             return date_input
         elif date_checked < date_threshold_low:
-        # If the date is earlier than the minimum allowed date, show a message with the closest valid date
-            print(f"\nSorry, the \"{value_name}\" is not valid. The closest valid date is: {date_threshold_low.strftime(format)}")
+            # If the date is earlier than the minimum allowed date, show a message with the closest valid date
+            print(
+                f"\nSorry, the \"{value_name}\" is not valid. The closest valid date is: {date_threshold_low.strftime(format)}")
         elif date_checked > date_threshold_high:
-        # If the date exceeds the upper limit, show an error message.
+            # If the date exceeds the upper limit, show an error message.
             print(f"\nSorry, the \"{value_name}\" is not valid. You entered: \"{date_input}\"")
 
 
@@ -157,77 +161,77 @@ def option_one():
 
         # First Name, mandatory input, converted to Title-case
         while True:
-        # Repeat the loop until the user enters a valid "first name"
+            # Repeat the loop until the user enters a valid "first name"
             emp_f_name = input("First Name: ")
-            # Check if the length of "emp_f_name" is within the specified range (1-15) or return "None" 
+            # Check if the length of "emp_f_name" is within the specified range (1-15) or return "None"
             emp_f_name = check_char_num("first name", emp_f_name, 15)
 
             if emp_f_name:
-            # Check if "emp_f_name" is valid based on the "format" given ("A-z'-")
+                # Check if "emp_f_name" is valid based on the "format" given ("A-z'-")
                 emp_f_name = check_valid_format("first name", emp_f_name, "A-z'-")
 
                 if emp_f_name:
-                # If "emp_f_name" is valid make it "Title Case" and exit the loop
+                    # If "emp_f_name" is valid make it "Title Case" and exit the loop
                     emp_f_name = emp_f_name.title()
                     break
-            
+
             # Show a message and repeat the loop
             print("Please try again\n")
 
         # Last Name, mandatory input, converted to Title-case
         while True:
-        # Repeat the loop until the user enters a valid "last name"
+            # Repeat the loop until the user enters a valid "last name"
             emp_l_name = input("Last Name: ")
-            # Check if the length of "emp_l_name" is within the specified range (1-15) or return "None" 
+            # Check if the length of "emp_l_name" is within the specified range (1-15) or return "None"
             emp_l_name = check_char_num("last name", emp_l_name, 15)
 
             if emp_l_name:
-            # Check if "emp_l_name" is valid based on the "format" given ("A-z'-")
+                # Check if "emp_l_name" is valid based on the "format" given ("A-z'-")
                 emp_l_name = check_valid_format("last name", emp_l_name, "A-z'-")
 
                 if emp_l_name:
-                # If "emp_l_name" is valid make it "Title Case" and exit the loop
+                    # If "emp_l_name" is valid make it "Title Case" and exit the loop
                     emp_l_name = emp_l_name.title()
                     break
-            
+
             # Show a message and repeat the loop
             print("Please try again\n")
 
         # Street Address, mandatory input, converted to Title-case
         while True:
-        # Repeat the loop until the user enters a valid "street address"
+            # Repeat the loop until the user enters a valid "street address"
             str_add = input("Street Address: ")
-            # Check if the length of "str_add" is within the specified range (1-30) or return "None" 
+            # Check if the length of "str_add" is within the specified range (1-30) or return "None"
             str_add = check_char_num("street address", str_add, 30)
 
             if str_add:
-            # Check if "str_add" is valid based on the "format" given ("A-z'- .#0-9")
+                # Check if "str_add" is valid based on the "format" given ("A-z'- .#0-9")
                 str_add = check_valid_format("street address", str_add, "A-z'- .#0-9")
 
                 if str_add:
-                # If "str_add" is valid make it "Title Case" and exit the loop
+                    # If "str_add" is valid make it "Title Case" and exit the loop
                     str_add = str_add.title()
                     break
-            
+
             # Show a message and repeat the loop
             print("Please try again\n")
 
         # City, mandatory input, converted to Title-case
         while True:
-        # Repeat the loop until the user enters a valid "city"
+            # Repeat the loop until the user enters a valid "city"
             city = input("City: ")
-            # Check if the length of "city" is within the specified range (1-19) or return "None" 
+            # Check if the length of "city" is within the specified range (1-19) or return "None"
             city = check_char_num("city", city, 19)
 
             if city:
-            # Check if "city" is valid based on the "format" given ("A-z'- .")
+                # Check if "city" is valid based on the "format" given ("A-z'- .")
                 city = check_valid_format("city", city, "A-z'- .")
 
                 if city:
-                # If "city" is valid make it "Title Case" and exit the loop
+                    # If "city" is valid make it "Title Case" and exit the loop
                     city = city[:-1].title() + city[-1].lower()
                     break
-            
+
             # Show a message and repeat the loop
             print("Please try again\n")
 
@@ -249,21 +253,21 @@ def option_one():
         pattern = r"^[A-Z]\d[A-Z][ -]?\d[A-Z]\d$"
 
         while True:
-        # Repeat the loop until the user enters a valid "Postal code"
+            # Repeat the loop until the user enters a valid "Postal code"
             # Prompt the user to input a postal code
             post_code = input("Postal Code: (e.g. A1A 1A1): ").upper()
 
             if re.match(pattern, post_code):
-            # If the input matches the regular expression pattern, format it as "A1A 1A1" and break out of the loop
+                # If the input matches the regular expression pattern, format it as "A1A 1A1" and break out of the loop
                 post_code = "{0} {1}".format(post_code[:3], post_code[-3:])
                 break
             else:
-            # If the input does not match the pattern, display an error message and repeat the loop
+                # If the input does not match the pattern, display an error message and repeat the loop
                 print("Invalid postal code. Please re-enter")
 
         # Phone Number, mandatory input, 10 characters long
         while True:
-        # Repeat the loop until the user enters a valid "Phone number"
+            # Repeat the loop until the user enters a valid "Phone number"
             # Prompt the user to input a "phone number"
             phone_num = input("Phone number (10 digits): ")
 
@@ -273,32 +277,32 @@ def option_one():
             phone_num = regex_object.sub("", phone_num)
 
             if phone_num == "":
-            # If the phone number is empty, display an error message and repeat the loop
+                # If the phone number is empty, display an error message and repeat the loop
                 print("Phone number cannot be empty, Please re-enter")
             elif len(phone_num) != 10:
-            # If the phone number is not 10 digits long, display an error message and repeat the loop
+                # If the phone number is not 10 digits long, display an error message and repeat the loop
                 print("Please enter phone number as 10 digits")
             elif not phone_num.isdigit():
-            # If the phone number contains non-digit characters, display an error message and repeat the loop
+                # If the phone number contains non-digit characters, display an error message and repeat the loop
                 print("Please enter a valid phone number")
             else:
-            # If the phone number is valid, format it as ###-###-#### and break out of the loop
+                # If the phone number is valid, format it as ###-###-#### and break out of the loop
                 phone_num = phone_num[:3] + "-" + phone_num[3:6] + "-" + phone_num[6:]
-                break        
+                break
 
-        # Date hired, mandatory input, valid date
+                # Date hired, mandatory input, valid date
         while True:
-        # Repeat the loop until the user enters a valid "Date hired"
+            # Repeat the loop until the user enters a valid "Date hired"
             # Prompt the user to input the "Date hired"
             date_hired = get_valid_date("date hired", DATE_START_COMPANY, today)
 
             if date_hired:
-            # If the "date hired" is valid exit the loop
+                # If the "date hired" is valid exit the loop
                 break
 
             # Show a message and repeat the loop
             print("Please try again\n")
-        
+
         # Employee Branch Number, mandatory input
         while True:
             try:
@@ -338,31 +342,31 @@ def option_one():
 
         # Employee Skills, mandatory input
         while True:
-        # Repeat the loop until the user enters a valid "employee skill"
+            # Repeat the loop until the user enters a valid "employee skill"
             emp_skills = input("Employee skill: ")
-            # Check if the length of "emp_skills" is within the specified range (1-40) or return "None" 
+            # Check if the length of "emp_skills" is within the specified range (1-40) or return "None"
             emp_skills = check_char_num("employee skill", emp_skills, 40)
 
             if emp_skills:
-            # Check if "emp_skills" is valid based on the "format" given ("A-z'- .")
+                # Check if "emp_skills" is valid based on the "format" given ("A-z'- .")
                 emp_skills = check_valid_format("employee skill", emp_skills, "A-z'- .")
 
                 if emp_skills:
-                # If "emp_skills" is valid make it "Title Case" and exit the loop
+                    # If "emp_skills" is valid make it "Title Case" and exit the loop
                     emp_skills = emp_skills.title()
                     break
-            
+
             # Show a message and repeat the loop
             print("Please try again\n")
 
         # Birthdate, mandatory input, valid date
         while True:
-        # Repeat the loop until the user enters a valid "Birthdate"
+            # Repeat the loop until the user enters a valid "Birthdate"
             # Prompt the user to input the "birthdate"
             birthdate = get_valid_date("birthdate", DATE_THRESHOLD_EMP_AGE, today)
 
             if birthdate:
-            # If the "birthdate" is valid exit the loop
+                # If the "birthdate" is valid exit the loop
                 break
 
             # Show a message and repeat the loop
@@ -370,10 +374,11 @@ def option_one():
 
         # Format currency related variables
         emp_salary_out = "{:.2f}".format(emp_salary)
-        
+
         # Append the new employee information to the "employee_info" list
-        employee_info.extend([employee_num, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired,
-                            emp_branch_num, emp_title, emp_salary_out, emp_skills, birthdate])
+        employee_info.extend(
+            [employee_num, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired,
+             emp_branch_num, emp_title, emp_salary_out, emp_skills, birthdate])
 
         # Append info to Employee Log data file
         with open('employeeLog.dat', 'a') as fhandle:
@@ -481,12 +486,12 @@ def option_four():
                     break
 
         with open('inventoryLog.dat', 'r') as fhandle:
-        # Read all lines from the inventory file
+            # Read all lines from the inventory file
             lines = fhandle.readlines()
 
             for record in lines:
-            # Loop through the lines in "inventoryLog.dat" until you find the record with the specified item number
-                # Remove any trailing whitespace characters  
+                # Loop through the lines in "inventoryLog.dat" until you find the record with the specified item number
+                # Remove any trailing whitespace characters
                 record = record.rstrip()
 
                 # Check if the record starts with the specified item number
@@ -512,7 +517,9 @@ def option_four():
         order_total_out = "{:.2f}".format(order_total)
 
         # Append the new purchase information to the "purchase_info" list
-        purchase_info.extend([order_num, order_date, cust_num, item_num, description, retail_cost_out, quantity, subtotal_out, order_total_out, emp_number])
+        purchase_info.extend(
+            [order_num, order_date, cust_num, item_num, description, retail_cost_out, quantity, subtotal_out,
+             order_total_out, emp_number])
 
         # Open file and write back all data
         with open("customerPurchase.dat", "a") as fhandle:
@@ -556,9 +563,7 @@ def option_four():
                 print("Please Select (Y) for yes or (N) for no")
 
 
-
 def option_five():
-
     print()
     print("Simpson's Carpet World")
     print(f"Employee Listing as of {today_str}")
@@ -582,7 +587,8 @@ def option_five():
         emp_salary = float(emp_line[11].strip())
         full_name = emp_first_name + " " + emp_last_name
 
-        print(f"{employee_number}          {full_name:<20s}   {emp_title:<16s}    {emp_branch:>6s}     "f"{FV.FDollar2(emp_salary):>10s}")
+        print(
+            f"{employee_number}          {full_name:<20s}   {emp_title:<16s}    {emp_branch:>6s}     "f"{FV.FDollar2(emp_salary):>10s}")
 
         total_employees_acc += 1
         total_salary_acc += emp_salary
@@ -627,7 +633,8 @@ def option_eight():
             if QOH <= reorder_point:
                 amt_need = max_amt - QOH
                 Order_amt += (retail_price * amt_need)
-                print(f'  {item_num:>4d}      {item_description:<14s}     {QOH:>4d}     {amt_need:>9d}   {max_amt:>15d}')
+                print(
+                    f'  {item_num:>4d}      {item_description:<14s}     {QOH:>4d}     {amt_need:>9d}   {max_amt:>15d}')
                 QOH += amt_need
                 item_count += 1
             elif QOH == max_amt:
@@ -638,8 +645,8 @@ def option_eight():
     f.close()
 
 
-def problem_solving():
-    if today.day == 1:
+def problem_solving(day):
+    if today.day == day:
         # read the customer purchase data from the file
         with open('CustomerPurchase.dat', 'r') as f:
             purchases = [line.strip().split(', ') for line in f.readlines()]
@@ -668,7 +675,7 @@ def problem_solving():
 
 
 while True:
-    problem_solving()
+    problem_solving(1)
     # Allow user to enter as many employees as needed, option to escape loop at end via input statement
     print()
     print("   Simpson Carpet World")
@@ -682,7 +689,8 @@ while True:
     print('6. Print Customers By Branch.')
     print('7. Print Orders By Customer.')
     print('8. Print Recorder Listing.')
-    print('9. Exit Menu')
+    print('9. Extra option for total commission of each employee on certain day.')
+    print('10. Exit Menu')
     print()
     print()
 
@@ -692,8 +700,8 @@ while True:
         except ValueError:
             print("Please enter a valid number")
         else:
-            if choice < 1 or choice > 9:
-                print("Please enter a number from 1-9 to make a selection")
+            if choice < 1 or choice > 10:
+                print("Please enter a number from 1-10 to make a selection")
             else:
                 break
 
@@ -737,4 +745,10 @@ while True:
         print("-------------")
         option_eight()
     elif choice == 9:
+        print()
+        print('Ninetieth option')
+        print("-------------")
+        day = int(input("Please enter the day of month, commission totals are to be calculated: "))
+        problem_solving(day)
+    elif choice == 10:
         exit()
