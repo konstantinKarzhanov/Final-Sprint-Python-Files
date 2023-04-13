@@ -57,9 +57,9 @@ f.close()
 f = open("employeeLog.dat", "r")
 for employee_data_line in f:
     employee_line = employee_data_line.split(',')
-    employee_num = int(employee_line[0].strip())
+    employee_number = int(employee_line[0].strip())
 
-    emp_numbers_list.append(employee_num)
+    emp_numbers_list.append(employee_number)
 f.close()
 
 # Read required data from customer file
@@ -69,14 +69,6 @@ for customer_data_line in f:
     customer_number = int(customer_line[0].strip())
 
     customer_numbers_list.append(customer_number)
-f.close()
-
-# Read required data from purchases file
-f = open("customerPurchase.dat", "r")
-
-for purchase_data_line in f:
-    purchase_line = purchase_data_line.split(',')
-    order_number = int(purchase_line[0].strip())
 f.close()
 
 # ---------------------------------
@@ -158,11 +150,10 @@ def option_one():
     """A function that will enter a new employee's information, then
     append it all into the employee file as a new record."""
 
-    while True:
-        global employee_num
-        employee_info = []
+    global employee_num
 
-        # User Validated Inputs
+    while True:
+        employee_info = []
 
         # First Name, mandatory input, converted to Title-case
         while True:
@@ -333,10 +324,11 @@ def option_one():
         while True:
             try:
                 emp_salary = float(input("Employee Salary: "))
-                emp_salary = round(emp_salary, 2)
             except ValueError:
                 print("Please enter a valid number")
             else:
+                emp_salary = round(emp_salary, 2)
+
                 if emp_salary < 13000:
                     print("This salary is below minimum wage, please re-enter")
                 elif emp_salary > 100000:
@@ -375,17 +367,32 @@ def option_one():
 
             # Show a message and repeat the loop
             print("Please try again\n")
+
+        # Format currency related variables
+        emp_salary_out = "{:.2f}".format(emp_salary)
         
-        # Increment employee_num and add all info to employee info list
-        employee_num += 1
-        employee_info.append((employee_num, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired,
-                            emp_branch_num, emp_title, emp_salary, emp_skills, birthdate))
+        # Append the new employee information to the "employee_info" list
+        employee_info.extend([employee_num, emp_f_name, emp_l_name, str_add, city, prov, post_code, phone_num, date_hired,
+                            emp_branch_num, emp_title, emp_salary_out, emp_skills, birthdate])
 
         # Append info to Employee Log data file
-        f = open('employeeLog.dat', 'a')
-        for data in employee_info:
-            f.write(", ".join(map(str, data)) + "\n")
-        f.close()
+        with open('employeeLog.dat', 'a') as fhandle:
+            fhandle.write(", ".join(map(str, employee_info)) + "\n")
+
+        # Simulate a loading process
+        print()
+        print("Adding Employee to System, please wait")
+        loading_text = "...."
+
+        for char in loading_text:
+            print(char, end="", flush=True)
+            time.sleep(0.5)
+
+        print(f" Employee (\"{employee_num}\") successfully added")
+        time.sleep(1)
+
+        # Increment employee_num and add all info to employee info list
+        employee_num += 1
 
         # Updating defaults file to new Employee Number
         f = open("defaults.dat", 'w')
@@ -400,18 +407,6 @@ def option_one():
         f.write("{}\n".format(str(HST)))
         f.close()
 
-
-        # Loading text for recept generation
-        print()
-        print("Adding Employee to System, please wait")
-        loading_text = "...."
-
-        for char in loading_text:
-            print(char, end="", flush=True)
-            time.sleep(0.5)
-        print(f" Employee {employee_num} successfully added. ")
-        time.sleep(1)
-
         while True:
             add_more_emp = input("Would you like to add another employee (Y/N): ").upper()
             if add_more_emp == "Y":
@@ -420,7 +415,6 @@ def option_one():
                 return
             else:
                 print("Please Select (Y) for yes or (N) for no")
-
 
 
 def option_two():
@@ -436,95 +430,131 @@ def option_four():
        purchase, then append all the info into the customer purchase file
        as a new record."""
 
-    global order_number
-    purchase_info = []
-
-    print("Enter new order information")
-    while True:
-        try:
-            emp_number = int(input(f"Employee Number ({', '.join(map(str, emp_numbers_list))}): "))
-        except ValueError:
-            print("Please enter a valid number")
-        else:
-            if emp_number not in emp_numbers_list:
-                print("Does not match any current employee number - please try again.")
-            else:
-                break
+    global order_num
 
     while True:
-        try:
-            cust_num = int(input(f"Customer ID Number ({', '.join(map(str, customer_numbers_list))}): "))
-        except ValueError:
-            print("Invalid input - must be an integer.")
-        else:
-            if cust_num not in customer_numbers_list:
-                print("Invalid customer number - please try again.")
+        purchase_info = []
+
+        print("Enter new order information")
+        while True:
+            try:
+                emp_number = int(input(f"Employee Number ({', '.join(map(str, emp_numbers_list))}): "))
+            except ValueError:
+                print("Please enter a valid number")
             else:
-                break
+                if emp_number not in emp_numbers_list:
+                    print("Does not match any current employee number - please try again.")
+                else:
+                    break
 
-    while True:
-        try:
-            item_num = int(input(f"Item Number ({', '.join(map(str, item_numbers_list))}): "))
-        except ValueError:
-            print("Invalid input - must be an integer.")
-        else:
-            if item_num not in item_numbers_list:
-                print("That item number does not match any of our items - please try again.")
+        while True:
+            try:
+                cust_num = int(input(f"Customer ID Number ({', '.join(map(str, customer_numbers_list))}): "))
+            except ValueError:
+                print("Invalid input - must be an integer.")
             else:
-                break
+                if cust_num not in customer_numbers_list:
+                    print("Invalid customer number - please try again.")
+                else:
+                    break
 
-    while True:
-        try:
-            quantity = int(input("Enter the quantity purchased: "))
-        except ValueError:
-            print("Invalid number - please try again")
-        else:
-            if quantity < 1:
-                print("Invalid quantity - please try again")
+        while True:
+            try:
+                item_num = int(input(f"Item Number ({', '.join(map(str, item_numbers_list))}): "))
+            except ValueError:
+                print("Invalid input - must be an integer.")
             else:
+                if item_num not in item_numbers_list:
+                    print("That item number does not match any of our items - please try again.")
+                else:
+                    break
+
+        while True:
+            try:
+                quantity = int(input("Enter the quantity purchased: "))
+            except ValueError:
+                print("Invalid number - please try again")
+            else:
+                if quantity < 1:
+                    print("Invalid quantity - please try again")
+                else:
+                    break
+
+        with open('inventoryLog.dat', 'r') as fhandle:
+        # Read all lines from the inventory file
+            lines = fhandle.readlines()
+
+            for record in lines:
+            # Loop through the lines in "inventoryLog.dat" until you find the record with the specified item number
+                # Remove any trailing whitespace characters  
+                record = record.rstrip()
+
+                # Check if the record starts with the specified item number
+                if record.startswith(str(item_num)):
+                    # Split the record into a list of items
+                    list_record = [item.lstrip() for item in record.split(',')]
+                    # Extract required data and assign it to the variables
+                    description = list_record[1]
+                    retail_cost = float(list_record[7])
+
+                    # Exit the loop as soon as the required record is found
+                    break
+
+        # Calculations for customer purchase
+        subtotal = retail_cost * quantity
+        HST_amount = subtotal * HST
+        order_total = subtotal + HST_amount
+        order_date = today_str
+
+        # Format currency related variables
+        subtotal_out = "{:.2f}".format(subtotal)
+        retail_cost_out = "{:.2f}".format(retail_cost)
+        order_total_out = "{:.2f}".format(order_total)
+
+        # Append the new purchase information to the "purchase_info" list
+        purchase_info.extend([order_num, order_date, cust_num, item_num, description, retail_cost_out, quantity, subtotal_out, order_total_out, emp_number])
+
+        # Open file and write back all data
+        with open("customerPurchase.dat", "a") as fhandle:
+            # Write the new purchase information to the file as a comma-separated string
+            fhandle.write(", ".join(map(str, purchase_info)) + "\n")
+
+        # Simulate a loading process
+        print()
+        print("Adding Order to System, please wait")
+        loading_text = "...."
+
+        for char in loading_text:
+            print(char, end="", flush=True)
+            time.sleep(0.5)
+
+        print(f" Order (\"{order_num}\") successfully added")
+        time.sleep(1)
+
+        # Increment Order Number "order_num"
+        order_num += 1
+
+        # Updating defaults file to new Order Number
+        with open("defaults.dat", 'w') as fhandle:
+            fhandle.write("{}\n".format(employee_num))
+            fhandle.write("{}\n".format(inventory_num))
+            fhandle.write("{}\n".format(commission_rate))
+            fhandle.write("{}\n".format(bonus_threshold))
+            fhandle.write("{}\n".format(commission_bonus_amt))
+            fhandle.write("{}\n".format(reorder_num))
+            fhandle.write("{}\n".format(customer_num))
+            fhandle.write("{}\n".format(order_num))
+            fhandle.write("{}\n".format(HST))
+
+        while True:
+            add_more_order = input("Would you like to add another order (Y/N): ").upper()
+            if add_more_order == "Y":
                 break
+            elif add_more_order == "N":
+                return
+            else:
+                print("Please Select (Y) for yes or (N) for no")
 
-    with open('inventoryLog.dat', 'r') as fhandle:
-    # Read all lines from the inventory file
-        lines = fhandle.readlines()
-
-        for record in lines:
-        # Loop through the lines in "inventoryLog.dat" until you find the record with the specified item number
-            # Remove any trailing whitespace characters  
-            record = record.rstrip()
-
-            # Check if the record starts with the specified item number
-            if record.startswith(str(item_num)):
-                # Split the record into a list of items
-                list_record = [item.lstrip() for item in record.split(',')]
-                # Extract required data and assign it to the variables
-                description = list_record[1]
-                retail_cost = float(list_record[7])
-
-                # Exit the loop as soon as the required record is found
-                break
-
-    # Calculations for customer purchase
-    subtotal = retail_cost * quantity
-    HST_amount = subtotal * HST
-    order_total = subtotal + HST_amount
-    order_date = today_str
-
-    # Increment order_number and put all purchase info into a list
-    order_number += 1
-
-    # Format currency related variables
-    subtotal_out = "{:.2f}".format(subtotal)
-    retail_cost_out = "{:.2f}".format(retail_cost)
-    order_total_out = "{:.2f}".format(order_total)
-
-    # Append the new purchase information to the "purchase_info" list
-    purchase_info.extend([order_number, order_date, cust_num, item_num, description, retail_cost_out, quantity, subtotal_out, order_total_out, emp_number])
-
-    # Open file and write back all data
-    with open("customerPurchase.dat", "a") as fhandle:
-        # Write the new purchase information to the file as a comma-separated string
-        fhandle.write(", ".join(map(str, purchase_info)) + "\n")
 
 
 def option_five():
