@@ -242,7 +242,7 @@ def option_one():
 
         # Province, mandatory input,converted to Upper-case, compared to valid list of provinces
         while True:
-            prov = input("Province (XX): ").upper()
+            prov = input(f"Province ({', '.join(VALID_PROV)}): ").upper()
 
             if prov == "":
                 print("Province field cannot be empty, Please re-enter")
@@ -442,57 +442,36 @@ def option_four():
     print("Enter new order information")
     while True:
         try:
-            emp_number = int(input("Employee Number: "))
+            emp_number = int(input(f"Employee Number ({', '.join(map(str, emp_numbers_list))}): "))
         except ValueError:
             print("Please enter a valid number")
         else:
             if emp_number not in emp_numbers_list:
                 print("Does not match any current employee number - please try again.")
-                print(f"Employee numbers: {emp_numbers_list}")
             else:
                 break
 
     while True:
         try:
-            cust_num = int(input("Customer ID Number: "))
+            cust_num = int(input(f"Customer ID Number ({', '.join(map(str, customer_numbers_list))}): "))
         except ValueError:
             print("Invalid input - must be an integer.")
         else:
             if cust_num not in customer_numbers_list:
                 print("Invalid customer number - please try again.")
-                print(f"Customer Numbers: {customer_numbers_list}")
             else:
                 break
 
     while True:
         try:
-            item_num = int(input("Item Number: "))
+            item_num = int(input(f"Item Number ({', '.join(map(str, item_numbers_list))}): "))
         except ValueError:
             print("Invalid input - must be an integer.")
         else:
             if item_num not in item_numbers_list:
                 print("That item number does not match any of our items - please try again.")
-                print(f"Item Numbers: {item_numbers_list}")
             else:
                 break
-
-    while True:
-        description = input("Item Description: ").title()
-        if description == "":
-            print("Cannot be blank - please try again.")
-        elif description not in item_descriptions_list:
-            print("We do not sell any items of that description - please try again.")
-            print(f"Item Descriptions: 'Wool Carpet', 'Nylon Carpet', 'Blended Carpet'")
-        else:
-            break
-
-    while True:
-        try:
-            retail_cost = float(input("Enter the retail cost: "))
-        except ValueError:
-            print("Invalid number - please try again")
-        else:
-            break
 
     while True:
         try:
@@ -505,21 +484,47 @@ def option_four():
             else:
                 break
 
+    with open('inventoryLog.dat', 'r') as fhandle:
+    # Read all lines from the inventory file
+        lines = fhandle.readlines()
+
+        for record in lines:
+        # Loop through the lines in "inventoryLog.dat" until you find the record with the specified item number
+            # Remove any trailing whitespace characters  
+            record = record.rstrip()
+
+            # Check if the record starts with the specified item number
+            if record.startswith(str(item_num)):
+                # Split the record into a list of items
+                list_record = [item.lstrip() for item in record.split(',')]
+                # Extract required data and assign it to the variables
+                description = list_record[1]
+                retail_cost = float(list_record[7])
+
+                # Exit the loop as soon as the required record is found
+                break
+
     # Calculations for customer purchase
     subtotal = retail_cost * quantity
     HST_amount = subtotal * HST
     order_total = subtotal + HST_amount
     order_date = today_str
 
-    #  Increment order_number and put all purchase info into a list
+    # Increment order_number and put all purchase info into a list
     order_number += 1
-    purchase_info.append((order_number, order_date, cust_num, item_num, description, retail_cost, quantity, subtotal, order_total, emp_number))
+
+    # Format currency related variables
+    subtotal_out = "{:.2f}".format(subtotal)
+    retail_cost_out = "{:.2f}".format(retail_cost)
+    order_total_out = "{:.2f}".format(order_total)
+
+    # Append the new purchase information to the "purchase_info" list
+    purchase_info.extend([order_number, order_date, cust_num, item_num, description, retail_cost_out, quantity, subtotal_out, order_total_out, emp_number])
 
     # Open file and write back all data
-    f = open("customerPurchase.dat", "a")
-    for data in purchase_info:
-        f.write(", ".join(map(str, data)) + "\n")
-    f.close()
+    with open("customerPurchase.dat", "a") as fhandle:
+        # Write the new purchase information to the file as a comma-separated string
+        fhandle.write(", ".join(map(str, purchase_info)) + "\n")
 
 
 def option_five():
