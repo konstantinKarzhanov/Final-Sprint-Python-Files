@@ -564,6 +564,9 @@ def option_four():
 
 
 def option_five():
+    """A function that is used to process and print out an employee listing."""
+
+    # Print the headings
     print()
     print("Simpson's Carpet World")
     print(f"Employee Listing as of {today_str}")
@@ -571,14 +574,17 @@ def option_five():
     print("Employee #    Employee Name          Title               Branch        Salary")
     print("------------------------------------------------------------------------------")
 
+    # Initialize accumulators
     total_employees_acc = 0
     average_salary = 0
     total_salary_acc = 0
 
+    # Open the file to report on
     f = open("employeeLog.dat", "r")
     for emp_data_line in f:
         emp_line = emp_data_line.split(",")
 
+        # Grab values from the file needed for the listing and assign them to variables
         employee_number = int(emp_line[0].strip())
         emp_first_name = emp_line[1].strip()
         emp_last_name = emp_line[2].strip()
@@ -587,14 +593,17 @@ def option_five():
         emp_salary = float(emp_line[11].strip())
         full_name = emp_first_name + " " + emp_last_name
 
+        # Print the detail lines
         print(
             f"{employee_number}          {full_name:<20s}   {emp_title:<16s}    {emp_branch:>6s}     "f"{FV.FDollar2(emp_salary):>10s}")
 
+        # Update accumulators
         total_employees_acc += 1
         total_salary_acc += emp_salary
         average_salary = total_salary_acc / total_employees_acc
-    f.close()
 
+    # Close the file and print the summary data
+    f.close()
     print("------------------------------------------------------------------------------")
     print(f"Total Employees: {total_employees_acc:>3d}    Average Salary: {FV.FDollar2(average_salary):>10s}   "
           f"Total Salary: {FV.FDollar2(total_salary_acc):>11s}")
@@ -611,15 +620,24 @@ def option_seven():
 
 
 def option_eight():
+    """A function that is used to process and print out a reorder listing."""
+
+    # Print the headings
     print()
     print("Simpson's Carpet World")
     print(f"Product Reorder Listing as of {today_str}")
     print("------------------------------------------------------------------------------")
     print("  Item #     Item Name        On Hand     Amt Ordered     Expected After Order")
     print("------------------------------------------------------------------------------")
+
+    # Initialize counters and accumulators
     item_count = 0
-    Order_amt = 0
+    order_amt = 0
+
+    # Open the file to report on
     f = open('inventoryLog.dat', 'r')
+
+    # Loop through each line in the file and process the items
     for item_data_line in f:
         item_line = item_data_line.split(',')
         item_num = int(item_line[0].strip())
@@ -629,20 +647,30 @@ def option_eight():
         reorder_point = int(item_line[9].strip())
         max_amt = int(item_line[10].strip())
 
+        # Set up the condition for the exception in an if statement
+        # Check to see if the item needs to be reordered and calculate the amount to order
         while True:
             if QOH <= reorder_point:
                 amt_need = max_amt - QOH
-                Order_amt += (retail_price * amt_need)
+                order_amt += (retail_price * amt_need)
+
+                # Print the detail line (items that need to be reordered)
                 print(
                     f'  {item_num:>4d}      {item_description:<14s}     {QOH:>4d}     {amt_need:>9d}   {max_amt:>15d}')
+
+                # Update counters and accumulators
                 QOH += amt_need
                 item_count += 1
+
+            # If the quantity on hand is equal to the max amount, stop processing the item
             elif QOH == max_amt:
                 break
             break
-    print("------------------------------------------------------------------------------")
-    print(f"Total Items: {item_count:>2d}        Last Order: $30,000.00        Current Order: {FV.FDollar2(Order_amt)}")
+
+    # Close the file and print the summary data
     f.close()
+    print("------------------------------------------------------------------------------")
+    print(f"Total Items: {item_count:>2d}        Last Order: $30,000.00        Current Order: {FV.FDollar2(order_amt)}")
 
 
 def problem_solving(day):
