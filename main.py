@@ -690,13 +690,16 @@ def problem_solving():
         else:
             sales_totals[emp_id] += subtotal
 
-    # calculate the commission for each employee and display the results
+    # Assign the list of unique employee IDs by extracting them from the dictionary keys and sorting them in ascending order. 
     unique_emp_ids = sorted(sales_totals.keys())
+
+    # Generate output for the user
     print(f"Commission totals for \"{len(unique_emp_ids)}\" employees as of \"{today.year}-{today.month:02d}-{today.day:02d}\"")
-    
     print("-" * 26)
     print(" Employee #    Commission ")
     print("-" * 26)
+
+    # Calculate the commission for each employee
     for emp_id in unique_emp_ids:
         sales_total = sales_totals[emp_id]
         commission = 0.06 * sales_total
@@ -704,6 +707,7 @@ def problem_solving():
         if sales_total > 5000:
             commission += 200
 
+        # Display the results
         print(f"  {emp_id :<4s}         {FV.FDollar2(commission) :>9s}")
 
     print("-" * 26)
@@ -789,8 +793,6 @@ while True:
         print('Ninth option')
         print("-------------")
         print()
-        # day = int(input("Please enter the day of month, commission totals are to be calculated: "))
-        # problem_solving(day)
         problem_solving()
         input("\nHit \"Return\" to go back to the Main Menu: ")
     elif choice == 10:
