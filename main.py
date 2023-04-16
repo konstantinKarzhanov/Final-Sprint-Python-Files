@@ -13,7 +13,7 @@ today = datetime.datetime.now()
 today_str = datetime.datetime.strftime(today, "%d-%m-%Y")
 
 # Assign required constants
-
+DATE_COMMISSION_CALC = 16
 DATE_START_COMPANY = datetime.datetime(2000, 1, 1)
 THRESHOLD_EMP_AGE = 100
 DATE_THRESHOLD_EMP_AGE = today - datetime.timedelta(THRESHOLD_EMP_AGE * 365.25)
@@ -673,38 +673,42 @@ def option_eight():
     print(f"Total Items: {item_count:>2d}        Last Order: $30,000.00        Current Order: {FV.FDollar2(order_amt)}")
 
 
-def problem_solving(day):
-    if today.day == day:
-        # read the customer purchase data from the file
-        with open('CustomerPurchase.dat', 'r') as f:
-            purchases = [line.strip().split(', ') for line in f.readlines()]
+def problem_solving():
+    # read the customer purchase data from the file
+    with open('CustomerPurchase.dat', 'r') as f:
+        purchases = [line.strip().split(', ') for line in f.readlines()]
 
-        # calculate the sales totals for each employee
-        sales_totals = {}
-        for purchase in purchases:
-            emp_id = purchase[9]
-            subtotal = float(purchase[7])
-            if emp_id not in sales_totals:
-                sales_totals[emp_id] = subtotal
-            else:
-                sales_totals[emp_id] += subtotal
+    # calculate the sales totals for each employee
+    sales_totals = {}
 
-        # calculate the commission for each employee and display the results
-        unique_emp_ids = set(sales_totals.keys())
-        print(f'Commission totals for {len(unique_emp_ids)} employees as of {today.year}-{today.month:02d}-{today.day:02d}:')
-        for emp_id in unique_emp_ids:
-            sales_total = sales_totals[emp_id]
-            commission = 0.06 * sales_total
-            if sales_total > 5000:
-                commission += 200
-            print(f'Employee {emp_id}: ${commission:.2f}')
-    else:
-        print('Commission calculation only runs on the first day of the month.')
+    for purchase in purchases:
+        emp_id = purchase[9]
+        subtotal = float(purchase[7])
 
+        if emp_id not in sales_totals:
+            sales_totals[emp_id] = subtotal
+        else:
+            sales_totals[emp_id] += subtotal
+
+    # calculate the commission for each employee and display the results
+    unique_emp_ids = sorted(sales_totals.keys())
+    print(f"Commission totals for \"{len(unique_emp_ids)}\" employees as of \"{today.year}-{today.month:02d}-{today.day:02d}\"")
+    
+    print("-" * 26)
+    print(" Employee #    Commission ")
+    print("-" * 26)
+    for emp_id in unique_emp_ids:
+        sales_total = sales_totals[emp_id]
+        commission = 0.06 * sales_total
+
+        if sales_total > 5000:
+            commission += 200
+
+        print(f"  {emp_id :<4s}         {FV.FDollar2(commission) :>9s}")
+
+    print("-" * 26)
 
 while True:
-    problem_solving(1)
-    # Allow user to enter as many employees as needed, option to escape loop at end via input statement
     print()
     print("   Simpson Carpet World")
     print("  Company Services System")
@@ -717,9 +721,17 @@ while True:
     print('6. Print Customers By Branch.')
     print('7. Print Orders By Customer.')
     print('8. Print Recorder Listing.')
-    print('9. Extra option for total commission of each employee on certain day.')
+    print('9. Calculate total commission of each employee (Extra option)')
     print('10. Exit Menu')
     print()
+
+    if today.day == DATE_COMMISSION_CALC:
+        problem_solving()
+    else:
+        print(" Note:")
+        print(f"       The system performs commission calculations automatically once a month, specifically on the \"{DATE_COMMISSION_CALC}\" of each month.")
+        print("       If you need to view calculations for today's date, you can access them by selecting the ninth option in the menu.")
+
     print()
 
     while True:
@@ -774,9 +786,12 @@ while True:
         option_eight()
     elif choice == 9:
         print()
-        print('Ninetieth option')
+        print('Ninth option')
         print("-------------")
-        day = int(input("Please enter the day of month, commission totals are to be calculated: "))
-        problem_solving(day)
+        print()
+        # day = int(input("Please enter the day of month, commission totals are to be calculated: "))
+        # problem_solving(day)
+        problem_solving()
+        input("\nHit \"Return\" to go back to the Main Menu: ")
     elif choice == 10:
         exit()
