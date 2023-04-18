@@ -652,7 +652,7 @@ def option_five():
     # Close the file and print the summary data
     f.close()
     print("------------------------------------------------------------------------------")
-    print(f"Total Employees: {total_employees_acc:>3d}    Average Salary: {FV.FDollar2(average_salary):>10s}   "
+    print(f"Total Employees: {total_employees_acc:<3d}    Average Salary: {FV.FDollar2(average_salary):>10s}   "
           f"Total Salary: {FV.FDollar2(total_salary_acc):>11s}")
 
 
